@@ -2,7 +2,7 @@
 
 number = input('Dime un número de dos cifras: ')
 
-#Para un número de mas cifras no sería lo mas óptimo
+# Para un número de mas cifras no sería lo mas óptimo
 first_number = number[0]
 secont_number = number[1]
 

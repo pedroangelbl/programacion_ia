@@ -5,7 +5,7 @@
 first_age = int(input('¿Cuál es la edad de la primera persona?'))
 second_age = int(input('¿Cuál es la edad de la segunda persona?'))
 
-if first_age<second_age:
+if first_age < second_age:
     print('La primera persona es más joven')
 elif first_age == second_age:
     print('Ambos tienen la misma edad')

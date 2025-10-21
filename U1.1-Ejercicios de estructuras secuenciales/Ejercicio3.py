@@ -2,7 +2,7 @@
 
 time = int(input('Cantidad de tiempo en minutos: '))
 
-#Cálculo de horar y minutos
+#Cálculo de horas y minutos
 hours = time // 60
 minutes = time % 60
 

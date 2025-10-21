@@ -9,16 +9,16 @@ hh = int(split_departure_time[0]) #Horas de salida
 mm = int(split_departure_time[1]) #Minutos de salida
 ss = int(split_departure_time[2]) #Segundos de salida
 
-#Obtenemos el tiempo de viaje hasta llegar a B en segundos
+# Obtenemos el tiempo de viaje hasta llegar a B en segundos
 t = int(input('Tiempo de viaje en segundos: '))
 
-#Tiempo de salida en segundos
+# Tiempo de salida en segundos
 departure_time_seconds = hh * 3600 + mm * 60 + ss
 
-#Tiempo de llegada en segundos
+# Tiempo de llegada en segundos
 arrive_time_seconds = departure_time_seconds + t
 
-#Convertir ahora al formato HH:MM:SS
+# Convertir ahora al formato HH:MM:SS
 arrive_hh = arrive_time_seconds // 3600
 arrive_mm = (arrive_time_seconds % 3600) // 60
 arrive_ss = (arrive_time_seconds % 3600) % 60

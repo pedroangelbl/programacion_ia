@@ -12,9 +12,9 @@ side_c = float(input('Dame el lado del triangulo C: '))
 
 if ((side_a**2 + side_b**2) == (side_c**2)):
     print('Se cumple el teorema de pitagoras, por lo tanto es un triangulo rectangulo')
+if (side_a == side_b == side_c):
+    print('Sus tres lados son iguales por lo tanto es un triangulo equilátero')
 elif (side_a == side_b or side_a == side_c or side_b == side_c):
     print('Dos de sus lados son inguales por lo tanto es un triangulo isosceles')
-elif (side_a == side_b == side_c):
-    print('Sus tres lados son iguales por lo tanto es un triangulo equilátero')
 else:
     print('Es un triangulo escaleno')
