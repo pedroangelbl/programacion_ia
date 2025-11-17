@@ -15,7 +15,6 @@ Ojo!!! esto se puede hacer 1 < 1/2"""
 
 from __future__ import annotations
 from math import gcd
-from fractions import Fraction as PyFraction
 from typeguard import typechecked
 
 
@@ -24,7 +23,9 @@ class Fraction:
 
     def __init__(self, numerator, denominator):
         if denominator == 0:
-            raise ValueError("El denominador no puede ser 0")
+            raise ZeroDivisionError("El denominador no puede ser 0")
+
+        # Reducimos todo lo posible con el máximo común divisor
         common = gcd(numerator, denominator)
         self._numerator = numerator // common
         self._denominator = denominator // common
@@ -47,18 +48,15 @@ class Fraction:
     @denominator.setter
     def denominator(self, denominator):
         if denominator == 0:
-            raise ValueError("El denominador no puede ser 0")
+            raise ZeroDivisionError("El denominador no puede ser 0")
         self._denominator = denominator
 
-    def __normalize(self, other: Fraction | int | float) -> Fraction:
+    def __normalize(self, other: Fraction | int) -> Fraction:
         if isinstance(other, int):
             other = Fraction(other, 1)
-        if isinstance(other, float):
-            py_fraction = PyFraction(other).limit_denominator()
-            other = Fraction(py_fraction.numerator, py_fraction.denominator)
         return other
 
-    def __add__(self, other: Fraction | int | float):
+    def __add__(self, other: Fraction | int):
         other = self.__normalize(other)
         num = self.numerator * other.denominator + self.denominator * other.numerator
         den = self.denominator * other.denominator
@@ -67,7 +65,7 @@ class Fraction:
     def __radd__(self, other):
         return self + other
 
-    def __sub__(self, other: Fraction | int | float):
+    def __sub__(self, other: Fraction | int):
         other = self.__normalize(other)
         num = self.numerator * other.denominator - self.denominator * other.numerator
         den = self.denominator * other.denominator
@@ -76,16 +74,16 @@ class Fraction:
     def __rsub__(self, other):
         return self - other
 
-    def __mul__(self, other: Fraction | int | float):
+    def __mul__(self, other: Fraction | int):
         other = self.__normalize(other)
         num = self.numerator * other.numerator
-        den = other.denominator * other.denominator
+        den = other.numerator * other.denominator
         return Fraction(num, den)
 
     def __rmul__(self, other):
         return self * other
 
-    def __truediv__(self, other: Fraction | int | float):
+    def __truediv__(self, other: Fraction | int):
         other = self.__normalize(other)
         num = self.numerator * other.denominator
         den = self.denominator * other.numerator

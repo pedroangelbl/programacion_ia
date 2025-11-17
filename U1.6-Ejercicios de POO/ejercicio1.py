@@ -1,5 +1,5 @@
-"""En Python existen clases para manipular duraciones de tiempo (horas:minutos:segundos), pero no nos gustan,
-vamos a hacer una nueva que se llamará Duration y será inmutable. Debe permitir:
+"""En Python existen clases para manipular duraciones de tiempo (horas:minutos:segundos), 
+pero no nos gustan, vamos a hacer una nueva que se llamará Duration y será inmutable. Debe permitir:
 
 Crear duraciones de tiempos.
     Ejemplo: t = Duration(10,20,56)
