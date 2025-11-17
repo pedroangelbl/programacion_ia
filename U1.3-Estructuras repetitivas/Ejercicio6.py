@@ -1,5 +1,5 @@
-# 6.Crea un programa que muestre en pantalla los N primeros número primos. 
-# El valor de N se pide por teclado al usuario/a.
+""" 6.Crea un programa que muestre en pantalla los N primeros número primos.
+ El valor de N se pide por teclado al usuario/a. """
 
 def is_prime_number(number):
     is_prime = True
@@ -7,17 +7,15 @@ def is_prime_number(number):
         if number % i == 0:
             is_prime = False
             break
-    
     return is_prime
 
 n_value = int(input('Cuántos números primos quieres mostrar? '))
-counter = 0
-number = 2
+COUNTER = 0
+NUMBER = 2
 print(f'Los {n_value} primeros números primos son:')
 
-while counter < n_value:
-    if is_prime_number(number):
-        print(number, end=" ")
-        counter += 1
-    number += 1
-    
+while COUNTER < n_value:
+    if is_prime_number(NUMBER):
+        print(NUMBER, end=" ")
+        COUNTER += 1
+    NUMBER += 1

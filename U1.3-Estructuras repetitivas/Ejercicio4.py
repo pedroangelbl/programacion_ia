@@ -1,5 +1,5 @@
-# 4.Escribe un programa que pida el limite inferior y superior de un intervalo. Si 
-# el límite inferior es mayor que el superior lo tiene que volver a pedir. 
+# 4.Escribe un programa que pida el limite inferior y superior de un intervalo. Si
+# el límite inferior es mayor que el superior lo tiene que volver a pedir.
 
 # A continuación se van introduciendo números hasta que introduzcamos el 0. Cuando
 # termine el programa dará las siguientes informaciones:
