@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="bebidas_6.xsl"?>
+
+<menu>
+    <bebida>
+        <nombre>Café solo</nombre>
+        <precio>1.50</precio>
+        <tipo>caliente</tipo>
+    </bebida>
+    <bebida>
+        <nombre>Café con leche</nombre>
+        <precio>1.80</precio>
+        <tipo>caliente</tipo>
+    </bebida>
+    <bebida>
+        <nombre>Zumo de naranja</nombre>
+        <precio>2.50</precio>
+        <tipo>fría</tipo>
+    </bebida>
+    <bebida>
+        <nombre>Refresco</nombre>
+        <precio>2.00</precio>
+        <tipo>fría</tipo>
+    </bebida>
+</menu>
