@@ -7,14 +7,37 @@ debe aparecer en la esquina inferior derecha.
 
 import random
 
-matrix = []
-for i in range(4):
-    row = []
-    for j in range(5):
-        num = random.randint(100, 999)
-        row.append(num)
-    matrix.append(row)
+matriz = []
 
-sum_rows = []
-for row in matrix:
-    sum_rows.append(sum(row))
+# Rellenar la matriz 4x5 con números aleatorios
+for i in range(4):
+    fila = []
+    for j in range(5):
+        numero = random.randint(100, 999)
+        fila.append(numero)
+    matriz.append(fila)
+
+# Mostrar matriz + suma de filas
+for fila in matriz:
+    suma_fila = 0
+    for num in fila:
+        print(num, end=" ")
+        suma_fila += num
+    print("|", suma_fila)
+
+print("-------------------------------")
+
+# Suma de columnas
+for c in range(5):
+    suma_columna = 0
+    for f in range(4):
+        suma_columna += matriz[f][c]
+    print(suma_columna, end=" ")
+
+# Suma total
+suma_total = 0
+for fila in matriz:
+    for num in fila:
+        suma_total += num
+
+print("|", suma_total)
