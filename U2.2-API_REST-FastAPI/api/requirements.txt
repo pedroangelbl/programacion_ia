@@ -1,0 +1,15 @@
+annotated-doc
+annotated-types
+anyio
+click
+fastapi
+h11
+idna
+numpy
+pydantic
+pydantic_core
+starlette
+typing-inspection
+typing_extensions
+uvicorn
+scikit-learn
