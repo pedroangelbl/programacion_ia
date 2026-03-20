@@ -1,12 +1,28 @@
+"""
+1.- Queremos hacer una aplicación que sea capaz de convertir una cantidad de dinero 
+en una moneda a otra moneda, para ello haremos uso de la API descrita aquí.
+
+Al usuario/a le pediremos:
+    La moneda desde la que queremos la conversión.
+    La moneda a la que queremos convertir.
+    La cantidad de dinero que tenemos.
+
+A tener en cuenta:
+    Si la consulta da un error hay que indicarlo.
+    Al usuario se le mostrarán las diferentes unidades de moneda antes de pedir los datos, 
+    estas se pueden obtener mediante consulta en esta misma API.
+"""
+
 import os
 import requests
 from dotenv import load_dotenv
 
+# Cargamos las variables de entorno de nuestro .env
 load_dotenv()
-
 api_key = os.getenv("api_key")
 base_url = os.getenv("base_url")
 
+# Método para hacer la petición que te de la conversión
 def get_exchange_rate(from_c, to_c, a):
     url = f"{base_url}/{api_key}/pair/{from_c}/{to_c}/{a}"
     try:

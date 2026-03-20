@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 4 – Ordenación por precio
+Objetivo
+Crear una hoja XSL que muestre todas las bebidas ordenadas por precio de mayor a menor.
+
+Requisitos
+  Archivo: bebidas_4.xsl
+  Usar ordenación con xsl:sort
+  Mostrar nombre y precio
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

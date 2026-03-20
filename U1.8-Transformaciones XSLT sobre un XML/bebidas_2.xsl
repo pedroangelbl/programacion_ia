@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 2 – Tabla completa
+Objetivo
+Crear una hoja XSL que muestre las bebidas en una tabla HTML con las columnas:
+  Nombre
+  Precio
+  Tipo
+
+Requisitos
+  Archivo: bebidas_2.xsl
+  Usar una tabla (<table>)
+  Mostrar todas las bebidas
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

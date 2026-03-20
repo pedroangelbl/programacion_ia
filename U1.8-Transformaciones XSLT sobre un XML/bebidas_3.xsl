@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 3 – Filtrado por tipo
+Objetivo
+Crear una hoja XSL que muestre solo las bebidas frías.
+
+Requisitos
+  Archivo: bebidas_3.xsl
+  Mostrar nombre y precio
+  Usar una condición (xsl:if) o un filtro XPath
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

@@ -1,4 +1,13 @@
-#!/usr/bin/python3
+"""
+Partiendo del código disponible en fichero adjunto añade la funcionalidad necesaria
+para ofrecer la variante lagarto, Spock del juego piedra, papel o tijeras.
+
+Usa las diferentes situaciones de juego, junto con su resultado,
+del archivo victories.xml que se adjunta.
+
+Sustituye el diccionario Victories por alguna referencia que permita acceder al
+contenido de victories.xml.
+"""
 
 import random
 from enum import IntEnum
@@ -24,12 +33,17 @@ NUMBER_RECENT_ACTIONS = 5
 
 
 def load_rules(xml_file):
+    """
+    Carga las reglas del juego desde un archivo XML, creando un diccionario que mapea
+    cada acción con las que vence y el mensaje explicativo.
+    """
     tree = ET.parse(xml_file)
     root = tree.getroot()
 
     rules = {}
 
-    for victory in root.findall('victory'):
+    # Itera sobre todas las victories y las guarda en el diccionario rules
+    for victory in root.findall("victory"):
         winner = GameAction[victory.get("choice")]
         loser = GameAction[victory.get("against")]
         message = victory.text.strip()
@@ -43,6 +57,10 @@ def load_rules(xml_file):
 
 
 def assess_game(user_action, computer_action, rules):
+    """
+    Determina el resultado comparando las acciones del usuario y 
+    ordenador usando las reglas del XML.
+    """
     if user_action == computer_action:
         print(f"User and computer picked {user_action.name}. Draw game!")
         return GameResult.Tie
@@ -59,15 +77,21 @@ def assess_game(user_action, computer_action, rules):
     return GameResult.Tie
 
 
-
 def get_computer_action(user_actions_history, game_history, rules):
+    """
+    - Si no hay historial, elige aleatoriamente.
+    - Si hay historial, usa IA básica: analiza las últimas 5 jugadas del usuario 
+    y elige la acción que le gane a su movimiento más frecuente.
+    """
     # No previous user actions => random computer choice
     if not user_actions_history or not game_history:
         computer_action = get_random_computer_action()
     # Alternative AI functionality
     # Choice that would beat the user's most frequent recent choice
     else:
-        most_frequent_recent_computer_action = GameAction(mode(user_actions_history[-NUMBER_RECENT_ACTIONS:]))
+        most_frequent_recent_computer_action = GameAction(
+            mode(user_actions_history[-NUMBER_RECENT_ACTIONS:])
+        )
         computer_action = get_winner_action(most_frequent_recent_computer_action, rules)
 
     print(f"Computer picked {computer_action.name}.")
@@ -76,8 +100,12 @@ def get_computer_action(user_actions_history, game_history, rules):
 
 
 def get_user_action():
-    # Scalable to more options (beyond rock, paper and scissors...)
-    game_choices = [f"{game_action.name}[{game_action.value}]" for game_action in GameAction]
+    """
+    Pide al usuario seleccionar una opción (0-4)
+    """
+    game_choices = [
+        f"{game_action.name}[{game_action.value}]" for game_action in GameAction
+    ]
     game_choices_str = ", ".join(game_choices)
     user_selection = int(input(f"\nPick a choice ({game_choices_str}): "))
     user_action = GameAction(user_selection)
@@ -86,6 +114,9 @@ def get_user_action():
 
 
 def get_random_computer_action():
+    """
+    Devuelve una acción aleatoria
+    """
     computer_selection = random.randint(0, len(GameAction) - 1)
     computer_action = GameAction(computer_selection)
 
@@ -93,6 +124,9 @@ def get_random_computer_action():
 
 
 def get_winner_action(game_action, rules):
+    """
+    Dada una acción, devuelve la que la vence
+    """
     for winner, losers in rules.items():
         if game_action in losers:
             return winner
@@ -101,11 +135,11 @@ def get_winner_action(game_action, rules):
 
 def play_another_round():
     another_round = input("\nAnother round? (y/n): ")
-    return another_round.lower() == 'y'
+    return another_round.lower() == "y"
 
 
 def main():
-    rules = load_rules('victories.xml')
+    rules = load_rules("victories.xml")
     game_history = []
     user_actions_history = []
 

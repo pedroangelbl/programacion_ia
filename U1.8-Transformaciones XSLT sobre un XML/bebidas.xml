@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="bebidas_6.xsl"?>
+<?xml-stylesheet type="text/xsl" href="bebidas_1.xsl"?>
+
+<!-- 
+Objetivo del ejercicio
+El objetivo de este ejercicio es aprender a transformar un documento XML utilizando hojas de estilo XSL (XSLT), 
+aplicando distintos tipos de transformaciones sin modificar el XML original.
+
+Se trabajarán los conceptos de:
+    XML como lenguaje de marcas
+    XSL y XSLT
+    XPath
+    Plantillas
+    Transformaciones XML → HTML 
+-->
 
 <menu>
     <bebida>

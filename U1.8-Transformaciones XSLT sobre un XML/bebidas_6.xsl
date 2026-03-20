@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 6 – Condicional visual
+Crear una hoja XSL que:
+    Muestre todas las bebidas
+    Si el precio es mayor de 2 €, el nombre debe aparecer en negrita
+    En caso contrario, debe aparecer en texto normal
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

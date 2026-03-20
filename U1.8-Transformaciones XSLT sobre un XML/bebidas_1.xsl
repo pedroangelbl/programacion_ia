@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 1 – Listado simple
+Objetivo
+Crear una hoja XSL que genere una página HTML con una lista (<ul>) que muestre solo los nombres de las bebidas.
+
+Requisitos
+  Archivo: bebidas_1.xsl
+  Salida HTML
+  Mostrar únicamente el nombre de cada bebida
+  No usar condiciones ni ordenaciones
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 

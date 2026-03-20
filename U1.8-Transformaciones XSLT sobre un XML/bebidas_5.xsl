@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 
+Transformación 5 – Uso de plantillas XSLT
+Objetivo
+Repetir la transformación del listado simple, pero utilizando plantillas XSLT en lugar de bucles directos.
+
+Requisitos
+  Archivo: bebidas_5.xsl
+  Debe incluir:
+    una plantilla con match="/"
+    una plantilla con match="bebida"
+  Usar xsl:apply-templates
+-->
+
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
