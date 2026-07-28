@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indice</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+    <style>
+        body {
+            max-width: 780px;
+            margin: auto;
+            padding: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Predición de Flor Iris</h1>
+
+    <form id="iris_form">
+        <div>
+            <label>Largo del sépalo</label>
+            <input type="number" step="0.1" value="5.1" id="sepal_length">
+        </div>
+        <div>
+            <label>Anchura del sépalo</label>
+            <input type="number" step="0.1" value="3.5" id="sepal_width">
+        </div>
+        <div>
+            <label>Largo del pétalo</label>
+            <input type="number" step="0.1" value="1.4" id="petal_length">
+        </div>
+        <div>
+            <label>Anchura del pétalo</label>
+            <input type="number" step="0.1" value="0.2" id="petal_width">
+        </div>
+        <button type="submit">Predecir especie</button>
+    </form>
+
+    <div id="resultado"></div>
+
+
+    <script>
+        document.getElementById('iris_form').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const sepal_length = document.getElementById('sepal_length').value
+            const sepal_width = document.getElementById('sepal_width').value
+            const petal_length = document.getElementById('petal_length').value
+            const petal_width = document.getElementById('petal_width').value
+
+            const url = `http://127.0.0.1:8000/predict/iris?sepal_length=${sepal_length}&sepal_width=${sepal_width}&petal_length=${petal_length}&petal_width=${petal_width}`
+
+            try {
+                const response = await fetch(url)
+                const data = await response.json()
+
+                const resDiv = document.getElementById('resultado')
+                resDiv.innerHTML = `Resultado: <span>${data.species.toUpperCase()}</span>`
+            } catch (error) {
+                console.error("Error al conectar con la API:", error);
+                alert("Asegúrate de que tu servicio FastAPI esté corriendo.");
+            }
+        })
+    </script>
+</body>
+
+</html>

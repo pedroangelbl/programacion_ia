@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconocedor de Dígitos MNIST</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #5f6368;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .drop-zone {
+            border: 2px dashed #1a73e8;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .drop-zone:hover {
+            background-color: #f1f3f4;
+        }
+        .drop-zone p {
+            margin: 0;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+        #fileInput {
+            display: none;
+        }
+        #previewContainer {
+            margin-top: 20px;
+            display: none;
+            justify-content: center;
+        }
+        #preview {
+            max-width: 150px;
+            max-height: 150px;
+            border: 2px solid #dadce0;
+            border-radius: 4px;
+            background-color: #000; /* Fondo visual opcional */
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1557b0;
+        }
+        button:disabled {
+            background-color: #bdc1c6;
+            cursor: not-allowed;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background-color: #e8f0fe;
+            color: #1967d2;
+            border: 1px solid #d2e3fc;
+        }
+        .error {
+            background-color: #fce8e6;
+            color: #c5221f;
+            border: 1px solid #fad2cf;
+        }
+        .digit-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #1a73e8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Reconocedor de Dígitos</h2>
+    <p>Sube una imagen de un número manuscrito (0-9). La API se encargará de convertirla a 20x20 en escala de grises.</p>
+    
+    <form id="uploadForm">
+        <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+            <p>Presiona aquí para buscar tu imagen</p>
+            <input type="file" id="fileInput" accept="image/*" required>
+        </div>
+
+        <div id="previewContainer">
+            <img id="preview" alt="Vista previa del dígito">
+        </div>
+
+        <button type="submit" id="btnSubmit" disabled>Analizar Imagen</button>
+    </form>
+
+    <div id="resultBox" class="result-box"></div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const preview = document.getElementById('preview');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const resultBox = document.getElementById('resultBox');
+    const uploadForm = document.getElementById('uploadForm');
+
+    // Mostrar vista previa cuando se selecciona una imagen
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.style.display = 'flex';
+                btnSubmit.disabled = false;
+                resultBox.style.display = 'none'; // Ocultar resultados previos
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Enviar formulario a la API mediante Fetch
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        // Crear objeto FormData para enviar archivos binarios por POST
+        const formData = new FormData();
+        formData.append('file', file);
+
+        resultBox.style.display = 'block';
+        resultBox.className = 'result-box success';
+        resultBox.innerHTML = 'Procesando y prediciendo...';
+        btnSubmit.disabled = true;
+
+        try {
+            // Reemplaza con tu URL si FastAPI corre en otro puerto/host
+            const response = await fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la respuesta de la API");
+            }
+
+            const data = await response.json();
+            
+            // Mostrar el dígito obtenido
+            resultBox.className = 'result-box success';
+            resultBox.innerHTML = `
+                <div>El dígito detectado es:</div>
+                <div class="digit-display">${data.digit}</div>
+                <div style="font-size: 12px; color: #5f6368;">Confianza: ${(data.confidence * 100).toFixed(2)}%</div>
+            `;
+
+        } catch (error) {
+            console.error(error);
+            resultBox.className = 'result-box error';
+            resultBox.innerText = 'Error al conectar con la API. Asegúrate de que FastAPI está activo.';
+        } finally {
+            btnSubmit.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>

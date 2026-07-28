@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictor de Calidad del Vino</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #722f37; /* Color vino */
+            margin-bottom: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #722f37;
+        }
+        button {
+            grid-column: span 2;
+            background-color: #722f37;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #5c242a;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+        .success {
+            background-color: #e6fffa;
+            color: #234e52;
+            border: 1px solid #b2f5ea;
+        }
+        .error {
+            background-color: #fff5f5;
+            color: #9b2c2c;
+            border: 1px solid #fed7d7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Predicción de Calidad del Vino</h2>
+    <form id="wineForm" class="grid-container">
+        <div class="form-group">
+            <label for="f1">Acidez Fija:</label>
+            <input type="number" id="f1" step="any" value="7.4" required>
+        </div>
+        <div class="form-group">
+            <label for="f2">Acidez Volátil:</label>
+            <input type="number" id="f2" step="any" value="0.7" required>
+        </div>
+        <div class="form-group">
+            <label for="f3">Ácido Cítrico:</label>
+            <input type="number" id="f3" step="any" value="0.0" required>
+        </div>
+        <div class="form-group">
+            <label for="f4">Azúcar Residual:</label>
+            <input type="number" id="f4" step="any" value="1.9" required>
+        </div>
+        <div class="form-group">
+            <label for="f5">Cloruros:</label>
+            <input type="number" id="f5" step="any" value="0.076" required>
+        </div>
+        <div class="form-group">
+            <label for="f6">Dióxido de Azufre Libre:</label>
+            <input type="number" id="f6" step="any" value="11.0" required>
+        </div>
+        <div class="form-group">
+            <label for="f7">Dióxido de Azufre Total:</label>
+            <input type="number" id="f7" step="any" value="34.0" required>
+        </div>
+        <div class="form-group">
+            <label for="f8">Densidad:</label>
+            <input type="number" id="f8" step="any" value="0.9978" required>
+        </div>
+        <div class="form-group">
+            <label for="f9">pH:</label>
+            <input type="number" id="f9" step="any" value="3.51" required>
+        </div>
+        <div class="form-group">
+            <label for="f10">Sulfatos:</label>
+            <input type="number" id="f10" step="any" value="0.56" required>
+        </div>
+        <div class="form-group full-width">
+            <label for="f11">Alcohol (%):</label>
+            <input type="number" id="f11" step="any" value="9.4" required>
+        </div>
+
+        <button type="submit">Predecir Calidad</button>
+    </form>
+
+    <div id="result" class="result-box"></div>
+</div>
+
+<script>
+    document.getElementById('wineForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evitar que la página se recargue
+
+        // URL de tu API en FastAPI (cambia el puerto si usas otro, ej: 8000)
+        const URL_API = "http://127.0.0.1:8000/predict"; 
+        
+        // Capturar los 11 valores y convertirlos a números decimales (floats)
+        const features = [];
+        for (let i = 1; i <= 11; i++) {
+            const value = parseFloat(document.getElementById(`f${i}`).value);
+            features.push(value);
+        }
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.className = 'result-box success';
+        resultDiv.innerText = "Calculando predicción...";
+
+        try {
+            // Realizar la petición POST a FastAPI
+            const response = await fetch(URL_API, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ features: features })
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la respuesta del servidor");
+            }
+
+            const data = await response.json();
+            
+            // Mostrar la calidad redondeada a 2 decimales
+            resultDiv.className = 'result-box success';
+            resultDiv.innerHTML = `Calidad Estimada: <span style="font-size: 24px; color: #722f37;">${data.quality.toFixed(2)}</span>`;
+
+        } catch (error) {
+            console.error(error);
+            resultDiv.className = 'result-box error';
+            resultDiv.innerText = "Error al conectar con la API. Asegúrate de que FastAPI está corriendo.";
+        }
+    });
+</script>
+
+</body>
+</html>
